@@ -1,8 +1,19 @@
+/*
+ * ArrayList
+ * Author: minjkim2, dkim2
+ * Language:  C
+ */
 #include "arraylist.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
+/*
+ * createArrayList() - create and initialize ArrayList
+ * 
+ * return			: Array List의 포인터
+ * maxElementCount	: Array List의 최대 원소 갯수
+ */
 ArrayList *createArrayList(int maxElementCount)
 {
 	ArrayList *ary;
@@ -22,10 +33,17 @@ ArrayList *createArrayList(int maxElementCount)
 	return (ary);
 }
 
-void clearArrayList(ArrayList* pList)
+/*
+ * clearArrayList() - Array List의 원소 초기화
+ * 
+ * return : None
+ * pList : Array List의 포인터
+ */
+void clearArrayList(ArrayList *pList)
 {
     if (!pList)
         return ;
+	/* 현재까지 저장된 원소를 모두 초기화한다. */
 	for (int i = 0; i < pList->currentElementCount ; i++)
 	{
 		pList->pElement[i].data = 0;
@@ -34,6 +52,12 @@ void clearArrayList(ArrayList* pList)
 	assert(pList->currentElementCount == 0);
 }
 
+/*
+ * deleteArrayList() - Destroy Array List
+ * 
+ * return : None
+ * pList : Pointer of Array List
+ */
 void deleteArrayList(ArrayList* pList)
 {
     if (!pList)
@@ -42,6 +66,14 @@ void deleteArrayList(ArrayList* pList)
     free(pList);
 }
 
+/*
+ * addALElement() - Array List의 position 위치에 element 추가
+ * 
+ * return : SUCCESS 0 FAILURE 1
+ * pList : Array List의 포인터
+ * position : element가 저장될 위치
+ * element : 저장될 원소
+ */
 int addALElement(ArrayList* pList, int position, ArrayListNode element)
 {
 	if (!pList || position < 0 || position >= pList->maxElementCount)
@@ -54,6 +86,13 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ * removeALElement() - Array List의 position 위치의 element 삭제 
+ *
+ * return : SUCCESS 0 FAILURE 1
+ * pList : Array List의 포인터
+ * position : 삭제할 원소의 위치
+ */
 int removeALElement(ArrayList* pList, int position)
 {
 	int i;
@@ -67,6 +106,12 @@ int removeALElement(ArrayList* pList, int position)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ * displatArraylist() - Print Array List
+ *
+ * return : None
+ * pList : Array List의 포인터
+*/
 void displayArrayList(ArrayList *pList)
 {
 	printf("maxElementCount : %d\n", pList->maxElementCount);
@@ -76,6 +121,12 @@ void displayArrayList(ArrayList *pList)
 	printf("\n");
 }
 
+/*
+ * getArrayListLength() - Array List의 현재 원소의 갯수 반환
+ *
+ * return : 현재 원소의 갯수
+ * pList : Array List의 포인터
+ */
 int getArrayListLength(ArrayList* pList)
 {
 	if (!pList)
@@ -83,6 +134,12 @@ int getArrayListLength(ArrayList* pList)
 	return (pList->currentElementCount);
 }
 
+/*
+ * isArrayListFull() - Array List가 가득 찾는지 검사
+ *
+ * return : 0 / 1
+ * pList : Array List의 포인터
+ */
 int isArrayListFull(ArrayList* pList)
 {
 	if (!pList)
@@ -90,7 +147,14 @@ int isArrayListFull(ArrayList* pList)
 	return (pList->maxElementCount == pList->currentElementCount);
 }
 
-ArrayListNode* getALElement(ArrayList* pList, int position)
+/*
+ * getALElement() - position 위치에 있는 node를 반환
+ *
+ * return : node의 포인터
+ * pList : Array List의 포인터
+ * position : 반환할 위치
+ */
+ArrayListNode *getALElement(ArrayList* pList, int position)
 {
 	ArrayListNode *node;
 

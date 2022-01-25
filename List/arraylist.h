@@ -8,9 +8,9 @@ typedef struct ArrayListNodeType
 
 typedef struct ArrayListType
 {
-	int maxElementCount;		// ÃÖ´ë ¿ø¼Ò °³¼ö
-	int currentElementCount;	// ÇöÀç ¿ø¼ÒÀÇ °³¼ö
-	ArrayListNode *pElement;	// ¿ø¼Ò ÀúÀåÀ» À§ÇÑ 1Â÷¿ø ¹è¿­
+	int maxElementCount;		// ìµœëŒ€ ì›ì†Œ ê°¯ìˆ˜
+	int currentElementCount;	// í˜„ì¬ ì›ì†Œì˜ ê°œìˆ˜
+	ArrayListNode *pElement;	// ì›ì†Œ ì €ì¥ì„ ìœ„í•œ 1ì°¨ì› ë°°ì—´
 } ArrayList;
 
 ArrayList* createArrayList(int maxElementCount);
