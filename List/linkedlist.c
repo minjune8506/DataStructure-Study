@@ -47,87 +47,10 @@ LinkedList *createLinkedList()
 {
 	LinkedList *list;
 
-	list = (LinkedList *)malloc(sizeof(LinkedList));
+	list = (LinkedList *)calloc(1, sizeof(LinkedList));
 	if (!list)
 		error("Memory Allocation Error");
-	list->currentElementCount = 0;
-	list->headerNode = NULL;
 	return (list);
-}
-
-/*
- * getNodeAt() - position 위치의 node 반환
- *
- * return	: Node의 포인터
- * pList	: Linked List의 포인터
- * position	: 반환할 위치
- */
-ListNode *getNodeAt(LinkedList *pList, int position)
-{
-	ListNode *temp;
-	int i;
-	
-	if (!pList || position < 0 || position >= pList->currentElementCount)
-		return NULL;
-	temp = pList->headerNode;
-	for (i = 0 ; i < position ; i++)
-		temp = temp->pLink;
-	return temp;
-}
-
-/*
- * addFrst() - Linked List의 첫 위치에 element 추가
- *
- * return	: 1 / 0
- * pList	: Linked List의 포인터
- * element	: 추가할 element
- */
-int addFirst(LinkedList *pList, ListNode element)
-{
-	ListNode *node;
-	ListNode *temp;
-
-	if (!pList)
-		return (EXIT_FAILURE);
-	node = createListNode(element.data);
-	temp = pList->headerNode;
-	if (!temp)
-		pList->headerNode = node;
-	else
-	{
-		node->pLink = temp;
-		pList->headerNode = node;
-	}
-	pList->currentElementCount++;
-	return (EXIT_SUCCESS);
-}
-
-/*
- * addLast() - Linked List의 마지막 위치에 element 추가
- *
- * return	: 1 / 0
- * pList	: Linked List의 포인터
- * element	: 추가할 element
- */
-int addLast(LinkedList *pList, ListNode element)
-{
-	ListNode *node;
-	ListNode *temp;
-
-	if (!pList)
-		return (EXIT_FAILURE);
-	node = createListNode(element.data);
-	temp = pList->headerNode;
-	if (!temp)
-		pList->headerNode = node;
-	else
-	{
-		while (temp->pLink)
-			temp = temp->pLink;
-		temp->pLink = node;
-	}
-	pList->currentElementCount++;
-	return (EXIT_SUCCESS);
 }
 
 /*
@@ -140,76 +63,18 @@ int addLast(LinkedList *pList, ListNode element)
  */
 int addLLElement(LinkedList* pList, int position, ListNode element)
 {
-	ListNode *temp;
+	ListNode *prev;
 	ListNode *node;
 	int i;
 	
-	if (!pList || position < 0)
+	if (!pList || position < 0 || position > pList->currentElementCount)
 		return (EXIT_FAILURE);
-	if (position > getLinkedListLength(pList))
-		position = getLinkedListLength(pList);
 	i = 0;
-	if (!pList->headerNode || position == 0)
-		addFirst(pList, element);
-	else
-	{
-		node = createListNode(element.data);
-		temp = pList->headerNode;
-		if (position == pList->currentElementCount)
-			addLast(pList, element);
-		else
-		{
-			temp = getNodeAt(pList, position - 1);
-			node->pLink = temp->pLink;
-			temp->pLink = node;
-			pList->currentElementCount++;
-		}
-	}
-	return (EXIT_SUCCESS);
-}
-
-/*
- * removeFirst() - Linked List의 첫 위치의 node 삭제
- *
- * return	: 1 / 0
- * pList	: Linked List의 포인터
- */
-int removeFirst(LinkedList *pList)
-{
-	ListNode *removed;
-
-	if (!pList || !pList->headerNode)
-		return (EXIT_FAILURE);
-	removed = pList->headerNode;
-	pList->headerNode = pList->headerNode->pLink;
-	free(removed);
-	pList->currentElementCount--;
-	return (EXIT_SUCCESS);
-}
-
-/*
- * removeLast() - Linked List의 마지막 위치의 node 삭제
- *
- * return	: 1 / 0
- * pList	: Linked List의 포인터
- */
-int removeLast(LinkedList *pList)
-{
-	ListNode *curr;
-	ListNode *prev;
-
-	if (!pList || !pList->headerNode)
-		return (EXIT_FAILURE);
-	curr = pList->headerNode;
-	prev = curr;
-	while (curr->pLink)
-	{
-		prev = curr;
-		curr = curr->pLink;
-	}
-	prev->pLink = NULL;
-	free(curr);
-	pList->currentElementCount--;
+	node = createListNode(element.data);
+	prev = getLLElement(pList, position - 1);
+	node->pLink = prev->pLink;
+	prev->pLink = node;
+	pList->currentElementCount++;
 	return (EXIT_SUCCESS);
 }
 
@@ -222,28 +87,17 @@ int removeLast(LinkedList *pList)
  */
 int removeLLElement(LinkedList* pList, int position)
 {
-	ListNode *curr;
+	ListNode *removed;
 	ListNode *prev;
 	int i;
 
-	if (!pList || position < 0 || position >= getLinkedListLength(pList) || !pList->headerNode)
+	if (!pList || position < 0 || position >= getLinkedListLength(pList) || !pList->headerNode.pLink)
 		return (EXIT_FAILURE);
-	curr = pList->headerNode;
-	if (position == 0)
-		removeFirst(pList);
-	else
-	{
-		i = 0;
-		prev = curr;
-		while (i < position)
-		{
-			prev = curr;
-			curr = curr->pLink;
-		}
-		prev->pLink = curr->pLink;
-		free(curr);
-		pList->currentElementCount--;
-	}
+	prev = getLLElement(pList, position - 1);
+	removed = prev->pLink;
+	prev->pLink = removed->pLink;
+	free(removed);
+	pList->currentElementCount--;
 	return (EXIT_SUCCESS);
 }
 
@@ -255,17 +109,9 @@ int removeLLElement(LinkedList* pList, int position)
  */
 int getLinkedListLength(LinkedList* pList)
 {
-	ListNode *temp;
-	int length;
-
-	length = 0;
-	temp = pList->headerNode;
-	while (temp)
-	{
-		length++;
-		temp = temp->pLink;
-	}
-	return (length);
+	if (!pList)
+		return (-1);
+	return (pList->currentElementCount);
 }
 
 /*
@@ -278,11 +124,16 @@ void clearLinkedList(LinkedList* pList)
 {
 	ListNode *temp;
 	ListNode *removed;
-	
+
 	if (!pList)
 		return ;
-	temp = pList->headerNode;
-	while (temp)
+	temp = pList->headerNode.pLink;
+	if (!temp)
+	{
+		printf("Empty List\n");
+		return ;
+	}
+	while (pList->currentElementCount)
 	{
 		removed = temp;
 		temp = temp->pLink;
@@ -314,16 +165,16 @@ void deleteLinkedList(LinkedList* pList)
  * pList	: Linked List의 포인터
  * position	: 반환할 Node의 위치
  */
-ListNode* getLLElement(LinkedList* pList, int position)
+ListNode *getLLElement(LinkedList* pList, int position)
 {
 	ListNode *temp;
 	int i;
 
-	if (!pList || position < 0)
+	if (!pList || position < -1 || position >= pList->currentElementCount)
 		return (NULL);
-	temp = pList->headerNode;
-	if (!temp)
-		return (NULL);
+	if (position == -1)
+		return (&pList->headerNode);
+	temp = pList->headerNode.pLink;
 	i = 0;
 	while (i < position)
 	{
@@ -343,8 +194,8 @@ void display(LinkedList *pList)
 {
 	ListNode *temp;
 
-	temp = pList->headerNode;
-	printf("currentElementCount : %d\n", pList->currentElementCount);
+	temp = pList->headerNode.pLink;
+	printf("currentElementCount : %d\n", getLinkedListLength(pList));
 	if (!temp)
 	{
 		printf("Empty List\n");
@@ -358,51 +209,66 @@ void display(LinkedList *pList)
 	printf("\n");
 }
 
+void reverseLinkedList(LinkedList* pList)
+{
+	ListNode *prev, *curr = NULL, *node;
+	
+	if (!pList)
+		return ;
+	node = pList->headerNode.pLink;
+	while (node != NULL)
+	{
+		prev = curr;
+		curr = node;
+		node = node->pLink;
+		curr->pLink = prev;
+	}
+}
+
 int main(void)
 {
 	LinkedList *list;
-	ListNode *get_node;
 	ListNode node;
 	
 	list = createLinkedList();
+
 	node.data = 10;
 	addLLElement(list, 0, node);
 	display(list);
+	// 10
+
 	node.data = 20;
-	addLLElement(list, 1, node);
-	display(list);
-	node.data = 30;
 	addLLElement(list, 0, node);
 	display(list);
-	node.data = 40;
+	// 20 -> 10
+
+	node.data = 30;
 	addLLElement(list, 1, node);
-	// 30 -> 40 -> 10 -> 20
 	display(list);
+	// 20 -> 30 -> 10
 
-
-	get_node = getLLElement(list, 2);
-	printf("get_node : %d\n", get_node->data); // 10
-
-	removeFirst(list);
-	// 40 -> 10 -> 20
+	node.data = 40;
+	addLLElement(list, 3, node);
 	display(list);
+	// 20 -> 30 -> 10 -> 40
 
-	removeLast(list);
-	// 40 -> 10
-	display(list);
+	// removeLLElement(list, 0);
+	// display(list);
+	// // 30 -> 10 -> 40
 
-	removeLLElement(list, 0);
-	// 10
-	display(list);
-	removeLLElement(list, 1);
-	// 10
-	display(list);
+	// removeLLElement(list, 1);
+	// display(list);
+	// // 30 -> 40
 
-	printf("---------\n");
-	removeLLElement(list, 0);
-	display(list);
-	
+	// removeLLElement(list, 1);
+	// display(list);
+	// // 30
+
+	// removeLLElement(list, 0);
+	// display(list);
+	// Empty List
+
 	clearLinkedList(list);
-	printf("---------\n");
-	display(list);
+	deleteLinkedList(list);
+	system("leaks a.out");
 }
