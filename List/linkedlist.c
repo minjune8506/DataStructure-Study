@@ -228,6 +228,7 @@ void reverseLinkedList(LinkedList* pList)
 		node = node->pLink;
 		curr->pLink = prev;
 	}
+	pList->headerNode.pLink = curr;
 }
 
 int main(void)
@@ -273,7 +274,9 @@ int main(void)
 	// display(list);
 	// Empty List
 
-	clearLinkedList(list);
-	deleteLinkedList(list);
-	system("leaks a.out");
+	// clearLinkedList(list);
+	// deleteLinkedList(list);
+	// system("leaks a.out");
+	reverseLinkedList(list);
+	display(list);
 }
