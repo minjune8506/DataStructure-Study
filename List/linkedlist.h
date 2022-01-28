@@ -23,6 +23,7 @@ void		clearLinkedList(LinkedList* pList);
 void		deleteLinkedList(LinkedList* pList);
 void		display(LinkedList *pList);
 void		error(char *message);
+void		reverseLinkedList(LinkedList* pList);
 
 #endif
 

@@ -1,29 +1,27 @@
 #ifndef _DOUBLYLIST_
 #define _DOUBLYLIST_
 
-typedef int element;
-
 typedef struct DoublyListNodeType
 {
-	element data;
+	int data;
 	struct DoublyListNodeType* pLLink;
 	struct DoublyListNodeType* pRLink;
 } DoublyListNode;
 
 typedef struct DoublyListType
 {
-	int	currentElementCount;		// ÇöÀç ÀúÀåµÈ ³ëµåÀÇ °¹¼ö
-	DoublyListNode	headerNode;		// Çì´õ ³ëµå (Header Node)
+	int	currentElementCount;		// í˜„ì¬ ë…¸ë“œì˜ ê°¯ìˆ˜
+	DoublyListNode	headerNode;		// í—¤ë” ë…¸ë“œ (Header Node)
 } DoublyList;
 
-DoublyList* createDoublyList();
-void deleteDoublyList(DoublyList* pList);
-int addDLElement(DoublyList* pList, int position, DoublyListNode element);
-int removeDLElement(DoublyList* pList, int position);
-DoublyListNode* getDLElement(DoublyList* pList, int position);
-void clearDoublyList(DoublyList* pList);
-int getDoublyListLength(DoublyList* pList);
-void displayDoublyList(DoublyList* pList);
+DoublyList*		createDoublyList();
+int				addDLElement(DoublyList* pList, int position, DoublyListNode element);
+int				removeDLElement(DoublyList* pList, int position);
+DoublyListNode*	getDLElement(DoublyList* pList, int position);
+int				getDoublyListLength(DoublyList* pList);
+void			clearDoublyList(DoublyList* pList);
+void			deleteDoublyList(DoublyList* pList);
+void			displayDoublyList(DoublyList* pList);
 #endif
 
 #ifndef _COMMON_LIST_DEF_

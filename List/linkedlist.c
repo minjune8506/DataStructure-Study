@@ -157,7 +157,6 @@ void deleteLinkedList(LinkedList* pList)
 	free(pList);
 }
 
-
 /*
  * getLLElement() - position 위치의 node 반환
  *
@@ -209,6 +208,12 @@ void display(LinkedList *pList)
 	printf("\n");
 }
 
+/*
+ * reverseLinkedList() - Linked List를 역순으로 변경
+ *
+ * return	: None
+ * pList	: Linked List의 포인터
+ */
 void reverseLinkedList(LinkedList* pList)
 {
 	ListNode *prev, *curr = NULL, *node;

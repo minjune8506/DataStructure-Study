@@ -1,8 +1,18 @@
+/*
+ * Circular List
+ * Author	: minjkim2, dkim2
+ * Language	:  C
+ */
 #include "circularlist.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
+/*
+ * createCircularList() - Create Circular List
+ *
+ * return	: Pointer of circular list
+ */
 CircularList *createCircularList()
 {
 	CircularList *list;
@@ -15,6 +25,13 @@ CircularList *createCircularList()
 	return (list);
 }
 
+
+/*
+ * createCListNode() - Create Circular List Node
+ *
+ * return	: Node의 포인터
+ * data		: Node의 data
+ */
 CircularListNode *createCListNode(int data)
 {
 	CircularListNode *node;
@@ -27,27 +44,43 @@ CircularListNode *createCListNode(int data)
 	return (node);
 }
 
-int addFirst(CircularList *pList, CircularListNode *element)
+
+/*
+ * addFirst() - list의 처음에 node 추가
+ *
+ * return	: 0 / 1
+ * pList	: Circular List의 포인터
+ * node		: 추가할 노드
+ */
+int addFirst(CircularList *pList, CircularListNode *node)
 {
 	CircularListNode *last_node;
 
-	if (!pList || !element)
+	if (!pList || !node)
 		return (EXIT_FAILURE);
 	if (!pList->pLink) // 공백 리스트인 경우
 	{
-		pList->pLink = element;
-		element->pLink = element;
+		pList->pLink = node;
+		node->pLink = node;
 	}
 	else // 공백 리스트가 아닌 경우
 	{
 		last_node = getCLElement(pList, pList->currentElementCount - 1);
-		last_node->pLink = element;
-		element->pLink = pList->pLink;
-		pList->pLink = element;
+		last_node->pLink = node;
+		node->pLink = pList->pLink;
+		pList->pLink = node;
 	}
 	return (EXIT_SUCCESS);
 }
 
+/*
+ * addCLElement() - Circular List의 position 위치에 node 추가
+ *
+ * return	: 0 / 1
+ * pList	: Circular List의 포인터
+ * position	: 노드를 추가할 위치
+ * element	: 추가할 노드의 데이터
+ */
 int addCLElement(CircularList* pList, int position, CircularListNode element)
 {
 	CircularListNode *node;
@@ -56,7 +89,7 @@ int addCLElement(CircularList* pList, int position, CircularListNode element)
 	if (!pList || position < 0 || position > pList->currentElementCount)
 		return (EXIT_FAILURE);
 	node = createCListNode(element.data);
-	if (position == 0 || !pList->pLink) // 첫 노드
+	if (position == 0 || !pList->pLink) // List의 첫위치에 노드 추가
 		addFirst(pList, node);
 	else
 	{
@@ -68,6 +101,12 @@ int addCLElement(CircularList* pList, int position, CircularListNode element)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ * removeFirst() - Circular List의 첫 노드 삭제
+ *
+ * return	: 0 / 1
+ * pList	: Circular List의 포인터
+ */
 int removeFirst(CircularList *pList)
 {
 	CircularListNode *removed;
@@ -75,15 +114,13 @@ int removeFirst(CircularList *pList)
 
 	if (!pList)
 		return (EXIT_FAILURE);
-	if (pList->currentElementCount == 1)
+	if (pList->currentElementCount == 1) // 전체 노드 개수 : 1
 	{
 		removed = pList->pLink;
 		pList->pLink = NULL;
 	}
 	else
 	{
-		// 마지막 노드가 가리키는 위치를 바꿔야 함
-		// 첫노드 의 다음으로
 		removed = pList->pLink;
 		node = getCLElement(pList, pList->currentElementCount - 1);
 		node->pLink = removed->pLink;
@@ -93,6 +130,13 @@ int removeFirst(CircularList *pList)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ * removeCLElement() - Circular List의 position 위치의 node 삭제
+ *
+ * return	: 0 / 1
+ * pList	: Circular List의 포인터
+ * position	: 삭제할 노드의 위치
+ */
 int removeCLElement(CircularList* pList, int position)
 {
 	CircularListNode *removed;
@@ -100,11 +144,7 @@ int removeCLElement(CircularList* pList, int position)
 
 	if (!pList || position < 0 || position >= pList->currentElementCount || !pList->pLink)
 		return (EXIT_FAILURE);
-	// 첫번쨰 노드 제거인가?
-	// -> 리스트의 마지막 노드 인가? (노드가 1개인가?)
-	// -> 1개 : 빈리스트
-	// -> x : 연결 바꿔주면 될듯.
-	if (position == 0)
+	if (position == 0) // 첫번째 위치의 노드 삭제
 		removeFirst(pList);
 	else
 	{
@@ -117,6 +157,13 @@ int removeCLElement(CircularList* pList, int position)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ * getCLElement() - Circular List의 position 위치의 노드 반환
+ *
+ * return	: node의 포인터
+ * pList	: Circular List의 포인터
+ * position	: 반환할 노드의 위치
+ */
 CircularListNode* getCLElement(CircularList* pList, int position)
 {
 	CircularListNode *node;
@@ -134,6 +181,12 @@ CircularListNode* getCLElement(CircularList* pList, int position)
 	return (node);
 }
 
+/*
+ * clearCircularList() - Circular List의 전체 노드 삭제
+ *
+ * return	: None
+ * pList	: Circular List의 포인터
+ */
 void clearCircularList(CircularList* pList)
 {
 	int i = 0;
@@ -153,6 +206,12 @@ void clearCircularList(CircularList* pList)
 	assert(pList->currentElementCount == 0);	
 }
 
+/*
+ * deleteCircularList() - Circular List 삭제
+ *
+ * return	: None
+ * pList	: Circular List의 포인터
+ */
 void deleteCircularList(CircularList* pList)
 {
 	if (!pList)
@@ -161,6 +220,12 @@ void deleteCircularList(CircularList* pList)
 	free(pList);
 }
 
+/*
+ * getCircularListLength() - Circular List의 길이 반환
+ *
+ * return	: Circular List의 노드 개수
+ * pList	: Circular List의 포인터
+ */
 int getCircularListLength(CircularList* pList)
 {
 	if (!pList)
@@ -168,6 +233,12 @@ int getCircularListLength(CircularList* pList)
 	return (pList->currentElementCount);
 }
 
+/*
+ * displayCircularList() - Circular List 출력
+ *
+ * return	: None
+ * pList	: Circular List의 포인터
+ */
 void displayCircularList(CircularList* pList)
 {
 	int i;
