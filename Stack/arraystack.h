@@ -6,9 +6,9 @@ typedef struct ArrayStackNodeType {
 } ArrayStackNode;
 
 typedef struct ArrayStackType {
-	int maxElementCount;		// ÃÖ´ë ¿ø¼Ò °³¼ö
-	int currentElementCount;	// ÇöÀç ¿ø¼ÒÀÇ °³¼ö
-	ArrayStackNode *pElement;	// ³ëµå ÀúÀåÀ» À§ÇÑ 1Â÷¿ø array
+	int maxElementCount;		// ìµœëŒ€ ì›ì†Œì˜ ê°œìˆ˜
+	int currentElementCount;	// í˜„ì¬ ì›ì†Œì˜ ê°œìˆ˜
+	ArrayStackNode *pElement;	// ë…¸ë“œ ì €ì¥ì„ ìœ„í•œ 1ì°¨ì› array
 } ArrayStack;
 
 ArrayStack* createArrayStack(int maxElementCount);
