@@ -9,8 +9,8 @@ typedef struct StackNodeType
 
 typedef struct LinkedStackType
 {
-	int currentElementCount;	// ÇöÀç ¿ø¼ÒÀÇ °³¼ö
-	StackNode* pTopElement;		// Top ³ëµåÀÇ Æ÷ÀÎÅÍ
+	int currentElementCount;	// í˜„ì¬ ì›ì†Œì˜ ê°œìˆ˜
+	StackNode* pTopElement;		// Top Nodeì˜ í¬ì¸í„°
 } LinkedStack;
 
 LinkedStack* createLinkedStack();
