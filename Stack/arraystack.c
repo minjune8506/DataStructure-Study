@@ -125,7 +125,6 @@ int isArrayStackEmpty(ArrayStack *pStack)
  * return : None
  * pStack : Array Stack의 포인터
 */
-
 void display(ArrayStack *pStack)
 {
 	if (!pStack || !pStack->pElement)
