@@ -3,7 +3,6 @@
 
 #define WIDTH 8
 #define HEIGHT 8
-
 #define NUM_DIRECTIONS 4
 
 // offset: x, y
@@ -16,6 +15,7 @@ static int DIRECTION_OFFSETS[NUM_DIRECTIONS][2] = {
 
 enum PosStatus { NOT_VISIT = 0, WALL = 1 , VISIT = 2  };
 
+enum Direction {RIGHT = 3, DOWN = 4, LEFT = 5, UP = 6};
 typedef struct MapPositionType
 {
 	int x;				// 현재 위치 x좌표.
@@ -23,4 +23,15 @@ typedef struct MapPositionType
 	int direction;		// 다음 위치로 이동 방향.
 } MapPosition;
 
+typedef struct StackNodeType
+{
+	MapPosition data;
+	struct StackNodeType* pLink;
+} StackNode;
+
+typedef struct LinkedStackType
+{
+	int currentElementCount;	// 현재 원소의 개수
+	StackNode* pTopElement;		// Top Node의 포인터
+} LinkedStack;
 #endif
