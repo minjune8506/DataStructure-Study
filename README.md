@@ -2,9 +2,17 @@
 [42Seoul] Data Structure Study
 
 ### List
-- [ArrayList](./List/arraylist.c)
-- [LinkedList](./List/linkedlist.c)
-- [CircularList](./List/circularlist.c)
-- [DoublyList](./List/doublylist.c)
+- [Array List](./List/arraylist.c)
+- [Linked List](./List/linkedlist.c)
+- [Circular List](./List/circularlist.c)
+- [Doubly List](./List/doublylist.c)
 - [Polynomial](./List/polynomial.c)
+
+### Stack
+- [Array Stack](./Stack/arraystack.c)
+- [Linked Stack](./Stack/linkedstack.c)
+
+### Queue
+- [Array Queue](./Queue/arrayqueue.c)
+- [Linked Deque](./Queue/linkeddeque.c)
 - [Blog](https://velog.io/@minjune8506/list)
