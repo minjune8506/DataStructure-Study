@@ -8,11 +8,11 @@ typedef struct ArrayQueueNodeType
 
 typedef struct ArrayQueueType
 {
-	int maxElementCount;		// ÃÖ´ë ¿ø¼Ò °³¼ö
-	int currentElementCount;	// ÇöÀç ¿ø¼ÒÀÇ °³¼ö
-	int front;					// front À§Ä¡
-	int rear;					// rear À§Ä¡
-	ArrayQueueNode *pElement;	// ³ëµå ÀúÀåÀ» À§ÇÑ 1Â÷¿ø ¹è¿­ Æ÷ÀÎÅÍ
+	int maxElementCount;		// ìµœëŒ€ ì›ì†Œì˜ ê°œìˆ˜
+	int currentElementCount;	// í˜„ì¬ ì›ì†Œì˜ ê°œìˆ˜
+	int front;					// front ìœ„ì¹˜
+	int rear;					// rear ìœ„ì¹˜
+	ArrayQueueNode *pElement;	// ë…¸ë“œ ì €ì¥ì„ ìœ„í•œ 1ì°¨ì› ë°°ì—´ í¬ì¸í„°
 } ArrayQueue;
 
 ArrayQueue* createArrayQueue(int maxElementCount);
