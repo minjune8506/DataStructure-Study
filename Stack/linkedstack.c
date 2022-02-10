@@ -8,6 +8,11 @@
 #include <stdio.h>
 #include <assert.h>
 
+/**
+ * createLinkedStack() : Linked Stack 생성
+ * 
+ * return : Linked Stack의 포인터
+ */
 LinkedStack *createLinkedStack()
 {
 	LinkedStack *stack;
@@ -20,6 +25,12 @@ LinkedStack *createLinkedStack()
 	return (stack);
 }
 
+/**
+ * createStackNode() : Stack Node 생성
+ * 
+ * return : Stack Node의 포인터 
+ * data : Node의 데이터
+ */
 StackNode *createStackNode(char data)
 {
 	StackNode *node;
@@ -32,6 +43,13 @@ StackNode *createStackNode(char data)
 	return (node);
 }
 
+/**
+ * pushLS() : Linked Stack에 Node 추가
+ * 
+ * return : 1 (EXIT_FAILURE) / 0 (EXIT_SUCCESS)
+ * pStack : Linked Stack의 포인터
+ * element : Linked Stack에 추가할 Node element
+ */
 int pushLS(LinkedStack *pStack, StackNode element)
 {
 	StackNode *node;
@@ -50,6 +68,12 @@ int pushLS(LinkedStack *pStack, StackNode element)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * popLS() : Linked Stack의 Node 제거
+ * 
+ * return : Stack의 Top Node의 포인터
+ * pStack : Linked Stack의  포인터
+ */
 StackNode *popLS(LinkedStack *pStack)
 {
 	StackNode *node;
@@ -62,6 +86,12 @@ StackNode *popLS(LinkedStack *pStack)
 	return (node);
 }
 
+/**
+ * peekLS() : Linked Stack의 Node 반환
+ * 
+ * return : Stack의 Top Node의 포인터
+ * pStack : Linked Stack의  포인터
+ */
 StackNode *peekLS(LinkedStack *pStack)
 {
 	StackNode *node;
@@ -72,6 +102,12 @@ StackNode *peekLS(LinkedStack *pStack)
 	return (node);
 }
 
+/**
+ * deleteLinkedStack() : Linked Stack 제거
+ * 
+ * return : None
+ * pStack : Linked Stack의  포인터
+ */
 void deleteLinkedStack(LinkedStack *pStack)
 {
 	StackNode *iter;
@@ -89,16 +125,25 @@ void deleteLinkedStack(LinkedStack *pStack)
 	free(pStack);
 }
 
-int isLinkedStackFull(LinkedStack *pStack)
-{
-
-}
-
+/**
+ * isLinkedStackEmpty() : Linked Stack이 비어있는지 확인
+ * 
+ * return : True / False
+ * pStack : Linked Stack의  포인터
+ */
 int isLinkedStackEmpty(LinkedStack *pStack)
 {
+	if (!pStack)
+		return (-1);
 	return (pStack->currentElementCount == 0);
 }
 
+/**
+ * display() : Linked Stack 출력
+ * 
+ * return : None
+ * pStack : Linked Stack의  포인터
+ */
 void display(LinkedStack *pStack)
 {
 	StackNode *iter;
