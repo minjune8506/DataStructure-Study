@@ -230,15 +230,18 @@ void display(LinkedDeque *pDeque)
 	node = pDeque->pFrontNode;
 	if (!node)
 	{
-		printf("Empty Deque\n");
+		printf("Empty Deque\n\n");
 		return ;
 	}
 	while (node)
 	{
-		printf("%c ->", node->data);
+		if (node->pRLink)
+			printf("%c -> ", node->data);
+		else
+			printf("%c", node->data);
 		node = node->pRLink;
 	}
-	printf("\n");
+	printf("\n\n");
 }
 
 int main(void)
@@ -270,6 +273,7 @@ int main(void)
 		free(delete);
 		node.data++;
 	}
+	printf("\n");
 	display(pDeque);
 	for (int i = 0 ; i < 5 ; i++)
 	{
@@ -279,8 +283,9 @@ int main(void)
 		free(delete);
 		node.data++;
 	}
+	printf("\n");
 	display(pDeque);
-	printf("%s\n", isLinkedDequeEmpty(pDeque) ? "true" : "false");
+	printf("isLinkedDequeEmpty : %s\n", isLinkedDequeEmpty(pDeque) ? "true" : "false");
 	deleteLinkedDeque(pDeque);
 	// system("leaks a.out");
 }
