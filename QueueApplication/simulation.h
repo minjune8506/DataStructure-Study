@@ -1,24 +1,12 @@
 #ifndef SIMULATION
 #define SIMULATION
 
-// Queue 구조 (선택)
-// rear -> o -> o -> front
-// front <- o <- o <- rear
+#define MAX_TIME 20
+#define RED "\033[0;31m"
+#define BLUE "\033[0;34m"
+#define RESET "\033[0;0m"
 
-typedef struct QueueNodeType
-{
-	char data;
-	struct DequeNodeType* pLLink;
-} QueueNode;
-
-typedef struct LinkedQueueType
-{
-	int currentElementCount;	// 현재 원소의 개수
-	QueueNode* pFrontNode;		// Front 노드의 포인터
-	QueueNode* pRearNode;		// Rear 노드의 포인터
-} LinkedQueue;
-
-typedef enum SimStatusType { arrival, start, end} SimStatus;
+typedef enum SimStatusType { arrival, start, end } SimStatus;
 
 typedef struct SimCustomerType
 {
@@ -29,10 +17,23 @@ typedef struct SimCustomerType
 	int endTime; // 종료 시각 : 시작 시각 + 서비스 시간.
 } SimCustomer;
 
+typedef struct QueueNodeType
+{
+	SimCustomer data;
+	struct QueueNodeType* pLink;
+} QueueNode;
+
+typedef struct LinkedQueueType
+{
+	int currentCustomerCount;	// 현재 고객의 수
+	QueueNode* pFrontNode;		// Front 노드의 포인터 (나가는 곳)
+	QueueNode* pRearNode;		// Rear 노드의 포인터 (들어오는 곳)
+} LinkedQueue;
+
 // Queue Functions
 LinkedQueue *createLinkedQueue();
-QueueNode *createQueueNode();
-int pushLQ(LinkedQueue *pQueue, LinkedQueue element);
+QueueNode *createQueueNode(QueueNode customer);
+int pushLQ(LinkedQueue *pQueue, QueueNode element);
 QueueNode *popLQ(LinkedQueue *pQueue);
 QueueNode *peekLQ(LinkedQueue *pQueue);
 int isLinkedQueueEmpty(LinkedQueue *pQueue);
