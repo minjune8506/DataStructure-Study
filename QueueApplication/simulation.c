@@ -246,6 +246,39 @@ void printReport(LinkedQueue *pWaitQueue, int serviceUserCount, int totalWaitTim
 	printf("Average Wait Time : %.1f\n", totalWaitTime / (float)serviceUserCount);
 }
 
+void inputCustomer(LinkedQueue *pArrivalQueue)
+{
+	// insertCutomer(0, 2, pArrivalQueue); // 0도착 2종료
+	// insertCutomer(1, 3, pArrivalQueue); // 1도착 2시작 5종료 
+	// insertCutomer(2, 4, pArrivalQueue); // 2도착 5시작 9종료 
+	// insertCutomer(6, 2, pArrivalQueue); // 6도착 9시작 11종료
+	int menu;
+	int arrivalTime;
+	int serviceTime;
+
+	printf("---------------------Customer Input---------------------\n");
+	while (1)
+	{
+		printf("메뉴\n");
+		printf("1. 고객 추가\n");
+		printf("2. 고객 입력 종료\n");
+		printf("입력 : ");
+		scanf("%d", &menu);
+		if (menu == 1)
+		{
+			printf("고객 도착 시간 : ");
+			scanf("%d", &arrivalTime);
+			printf("고객 서비스 시간 : ");
+			scanf("%d", &serviceTime);
+			insertCutomer(arrivalTime, serviceTime, pArrivalQueue);
+		}
+		else if (menu == 2)
+			break ;
+		else
+			printf("RTFM\n");
+	}
+	printf("---------------------Input END---------------------\n");
+}
 
 int main(void)
 {
@@ -257,12 +290,8 @@ int main(void)
 	int TotalWaitTime = 0;
 
 	pArrivalQueue = createLinkedQueue();
-	pWaitQueue = createLinkedQueue();
-	
-	insertCutomer(0, 2, pArrivalQueue); // 0도착 2종료
-	insertCutomer(1, 3, pArrivalQueue); // 1도착 2시작 5종료 
-	insertCutomer(2, 4, pArrivalQueue); // 2도착 5시작 9종료 
-	insertCutomer(6, 2, pArrivalQueue); // 6도착 9시작 11종료
+	pWaitQueue = createLinkedQueue();	
+	inputCustomer(pArrivalQueue);
 
 	for (int t = 0 ; t < MAX_TIME ; t++)
 	{
