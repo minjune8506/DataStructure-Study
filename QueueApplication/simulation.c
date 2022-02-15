@@ -181,9 +181,12 @@ QueueNode* processServiceNodeStart(int currentTime, LinkedQueue *pWaitQueue)
 {
 	QueueNode *node;
 
-	node = popLQ(pWaitQueue);
+	node = peekLQ(pWaitQueue);
 	if (!node)
 		return (NULL);
+	if (currentTime + node->data.serviceTime > MAX_TIME)
+		return (NULL);
+	node = popLQ(pWaitQueue);
 	node->data.status = start;
 	node->data.startTime = currentTime;
 	return (node);
@@ -211,7 +214,6 @@ QueueNode* processServiceNodeEnd(int currentTime, QueueNode *pServiceNode, int *
 
 void printSimCustomer(int currentTime, SimCustomer customer)
 {
-	// printf(RED"\nCurrentTime: %d\n"RESET, currentTime);
 	if (customer.status == arrival)
 		printf("status : "BLUE"arrival "RESET);
 	else if (customer.status == start)
@@ -237,7 +239,7 @@ void printWaitQueueStatus(int currentTime, LinkedQueue *pWaitQueue)
 
 void printReport(LinkedQueue *pWaitQueue, int serviceUserCount, int totalWaitTime)
 {
-	printf(BLUE"---------------------REPORT---------------------\n"RESET);
+	printf(BLUE"--------------------- REPORT ---------------------\n"RESET);
 	printf("MAX_TIME : %d\n", MAX_TIME);
 	if (!isLinkedQueueEmpty(pWaitQueue))
 		printf("Remaining Customer : %d\n", pWaitQueue->currentCustomerCount);
@@ -256,7 +258,7 @@ void inputCustomer(LinkedQueue *pArrivalQueue)
 	int arrivalTime;
 	int serviceTime;
 
-	printf("---------------------Customer Input---------------------\n");
+	printf(BLUE"--------------------- Customer Input ---------------------\n"RESET);
 	while (1)
 	{
 		printf("메뉴\n");
@@ -277,7 +279,23 @@ void inputCustomer(LinkedQueue *pArrivalQueue)
 		else
 			printf("RTFM\n");
 	}
-	printf("---------------------Input END---------------------\n");
+}
+
+void clearLinkedQueue(LinkedQueue *pQueue)
+{
+	QueueNode *node;
+	QueueNode *temp;
+	
+	if (!pQueue)
+		return ;
+	node = pQueue->pFrontNode;
+	while (node)
+	{
+		temp = node;
+		node = node->pLink;
+		free(temp);
+		pQueue->currentCustomerCount--;
+	}
 }
 
 int main(void)
@@ -290,9 +308,10 @@ int main(void)
 	int TotalWaitTime = 0;
 
 	pArrivalQueue = createLinkedQueue();
-	pWaitQueue = createLinkedQueue();	
+	pWaitQueue = createLinkedQueue();
 	inputCustomer(pArrivalQueue);
 
+	printf(BLUE"--------------------- BANK ---------------------\n"RESET);
 	for (int t = 0 ; t < MAX_TIME ; t++)
 	{
 		printf(RED"\nCurrentTime: %d\n"RESET, t);
@@ -318,11 +337,14 @@ int main(void)
 		}
 	}
 	printReport(pWaitQueue, ServiceUserCount, TotalWaitTime);
+	clearLinkedQueue(pArrivalQueue);
+	clearLinkedQueue(pWaitQueue);
 
 	assert(isLinkedQueueEmpty(pArrivalQueue));
 	assert(isLinkedQueueEmpty(pWaitQueue));
-	
+
 	free(pWaitQueue);
 	free(pArrivalQueue);
+
 	// system("leaks a.out");
 }
