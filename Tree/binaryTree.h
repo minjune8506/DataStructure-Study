@@ -14,12 +14,16 @@ typedef struct BinTreeType
 	struct BinTreeNodeType* pRootNode;
 } BinTree;
 
+BinTreeNode* createNewNodeBT(BinTreeNode element);
 BinTree* makeBinTree(BinTreeNode rootNode);
 BinTreeNode* getRootNodeBT(BinTree* pBinTree);
 BinTreeNode* insertLeftChildNodeBT(BinTreeNode* pParentNode, BinTreeNode element);
 BinTreeNode* insertRightChildNodeBT(BinTreeNode* pParentNode, BinTreeNode element);
 BinTreeNode* getLeftChildNodeBT(BinTreeNode* pNode);
 BinTreeNode* getRightChildNodeBT(BinTreeNode* pNode);
+void preorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func)(BinTreeNode *));
+void postorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func)(BinTreeNode *));
+void inorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func)(BinTreeNode *));
 void deleteBinTree(BinTree* pBinTree);
 void deleteBinTreeNode(BinTreeNode* pNode);
 
