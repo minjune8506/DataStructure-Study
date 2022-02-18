@@ -16,4 +16,7 @@
 - [Array Queue](./Queue/arrayqueue.c)
 - [Linked Deque](./Queue/linkeddeque.c)
 - [Queue Application](./QueueApplication/simulation.c)
+
+### Tree
+- [Binary Tree](./Tree/binaryTree.c)
 - [Blog](https://velog.io/@minjune8506/list)
