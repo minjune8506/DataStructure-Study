@@ -10,7 +10,7 @@ all : $(TARGET)
 
 $(TARGET) : $(OBJS)
 	@ echo "$(BLUE)Object File Created$(RESET)"
-	@ $(CC) $(OBJS) -o maze
+	@ $(CC) $(OBJS) -o $(TARGET)
 	@ echo "$(RED)maze Created$(RESET)"
 
 %.o : %.c
