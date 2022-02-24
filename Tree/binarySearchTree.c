@@ -4,7 +4,6 @@
 
 BinTreeNode *insertBST(BinTree *BST, BinTreeNode element)
 {
-	// BinTreeNode *result;
 	BinTreeNode *newNode;
 	BinTreeNode *parent;
 
@@ -12,16 +11,10 @@ BinTreeNode *insertBST(BinTree *BST, BinTreeNode element)
 		return (0);
 	newNode = createNewNodeBT(element);
 	if (!getRootNodeBT(BST))
+	{
 		BST->pRootNode = newNode;
-	// result = BST->pRootNode;
-	// while (result)
-	// {
-	// 	if (result->data < element.data)
-	// 		result = result->pRightChild;
-	// 	else if (result->data > element.data)
-	// 		result = result->pLeftChild;
-	// }
-	// result = newNode;
+		return (BST->pRootNode);
+	}
 	parent = searchParentNode(BST, element);
 	if (parent->data < element.data)
 	{
@@ -43,7 +36,7 @@ BinTreeNode *searchBST(BinTree *BST, BinTreeNode key)
 		if (key.data == result->data)
 			break ;
 		else if (key.data < result->data)
-			result  = result->pLeftChild;
+			result = result->pLeftChild;
 		else
 			result = result->pRightChild;
 	}
@@ -53,22 +46,17 @@ BinTreeNode *searchBST(BinTree *BST, BinTreeNode key)
 BinTreeNode *searchParentNode(BinTree *BST, BinTreeNode key)
 {
 	BinTreeNode *result = getRootNodeBT(BST);
-	BinTreeNode *parent;
+	BinTreeNode *parent = NULL;
 	
 	while (result)
 	{
 		if (key.data == result->data)
 			break ;
-		else if (key.data < result->data)
-		{
-			parent = result;
+		parent = result;
+		if (key.data < result->data)
 			result  = result->pLeftChild;
-		}
 		else
-		{
-			parent = result;
 			result = result->pRightChild;
-		}
 	}
 	if (result == parent)
 		return (NULL);
@@ -80,7 +68,7 @@ BinTreeNode *findSuccNode(BinTreeNode *node)
 	BinTreeNode *pPredecessor;
 
 	pPredecessor = node->pLeftChild;
-	while (pPredecessor)
+	while (pPredecessor->pRightChild)
 		pPredecessor = pPredecessor->pRightChild;
 	return (pPredecessor);
 }
@@ -92,22 +80,31 @@ void deleteBST(BinTree *BST, BinTreeNode key)
 	BinTreeNode *successor;
 	BinTreeNode *parent_successor;
 	
+	searched = searchBST(BST, key);
+	if (!searched)
+	{
+		fprintf(stderr, "key not exist\n");
+		return ;
+	}
 	parent = searchParentNode(BST, key);
-	searched = searchBST(BST,key);
 	if (!parent)
+	{
 		BST->pRootNode = NULL;
+		deleteBinTreeNode(searched);
+	}
 	if (searched->pLeftChild && searched->pRightChild)
 	{
 		successor = findSuccNode(searched);
 		parent_successor = searchParentNode(BST, *successor);
 		if (parent->pLeftChild == searched)
-			parent->pLeftChild = successor;
+			parent->pLeftChild->data = successor->data;
 		else
-			parent->pRightChild = successor;
+			parent->pRightChild->data = successor->data;
 		if (parent_successor->pLeftChild == successor)
 			parent_successor->pLeftChild = NULL;
 		else
 			parent_successor->pRightChild = NULL;
+		deleteBinTreeNode(successor);
 	}
 	else if (searched->pRightChild || searched->pLeftChild)
 	{
@@ -117,6 +114,7 @@ void deleteBST(BinTree *BST, BinTreeNode key)
 				parent->pLeftChild = searched->pRightChild;
 			else
 				parent->pRightChild = searched->pRightChild;
+			searched->pRightChild = NULL;
 		}
 		else
 		{
@@ -124,8 +122,9 @@ void deleteBST(BinTree *BST, BinTreeNode key)
 				parent->pLeftChild = searched->pLeftChild;
 			else
 				parent->pRightChild = searched->pLeftChild;
-			// searched->pLeftChild = NULL; //내일 ><
+			searched->pLeftChild = NULL;
 		}
+		deleteBinTreeNode(searched);
 	}
 	else
 	{
@@ -133,9 +132,8 @@ void deleteBST(BinTree *BST, BinTreeNode key)
 			parent->pLeftChild = NULL;
 		else
 			parent->pRightChild = NULL;
+		deleteBinTreeNode(searched);
 	}
-	// deleteBinTreeNode(searched);
-	free(searched);
 }
 
 int main(void)
@@ -148,15 +146,29 @@ int main(void)
 	rootNode = makeTreeNode(30);
 	tree = makeBinTree(rootNode);
 
-	temp = insertLeftChildNodeBT(getRootNodeBT(tree), makeTreeNode(20));
-	insertLeftChildNodeBT(insertRightChildNodeBT(temp, makeTreeNode(24)), makeTreeNode(22));
-	temp = insertLeftChildNodeBT(temp, makeTreeNode(10));
-	insertLeftChildNodeBT(temp, makeTreeNode(6));
-	insertRightChildNodeBT(temp, makeTreeNode(14));
-	
-	temp = insertRightChildNodeBT(getRootNodeBT(tree), makeTreeNode(40));
-	temp = insertLeftChildNodeBT(temp, makeTreeNode(34));
-	temp = insertRightChildNodeBT(getRootNodeBT(tree)->pRightChild, makeTreeNode(46));
+	key.pLeftChild=NULL;
+	key.pRightChild=NULL;
+	key.visited=FALSE;
+	key.data = 40;
+	insertBST(tree, key);
+	key.data = 34;
+	insertBST(tree, key);
+	key.data = 46;
+	insertBST(tree, key);
+	key.data = 32;
+	insertBST(tree, key);
+	key.data = 20;
+	insertBST(tree, key);
+	key.data = 10;
+	insertBST(tree, key);
+	key.data = 24;
+	insertBST(tree, key);
+	key.data = 6;
+	insertBST(tree, key);
+	key.data = 14;
+	insertBST(tree, key);
+	key.data = 22;
+	insertBST(tree, key);
 	
 	// preorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
 	// postorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
@@ -167,23 +179,27 @@ int main(void)
 		D10		E24		    F34		G46
 	H6	 I14	   J22	   32
 	*/
+
 	key.data = 34;
 	temp = searchBST(tree, key);
 	printf("key : %d\n", temp->data);
 	temp = searchParentNode(tree, key);
 	printf("Parent key : %d\n", temp->data);
-	key.data = 32;
-	insertBST(tree, key);
 	
 	key.data = 34;
 	deleteBST(tree, key);
 	inorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
+	printf("\n");
 	key.data = 32;
 	deleteBST(tree, key);
 	inorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
-	// key.data = 20;
+	printf("\n");
+	key.data = 20;
+	deleteBST(tree, key);
+	inorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
+	// key.data = 34;
 	// deleteBST(tree, key);
-	// inorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
-	// deleteBinTree(tree);
+	printf("\n");
+	deleteBinTree(tree);
 	// system("leaks a.out");
 }
