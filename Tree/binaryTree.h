@@ -26,6 +26,8 @@ void postorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func
 void inorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func)(BinTreeNode *));
 void deleteBinTree(BinTree* pBinTree);
 void deleteBinTreeNode(BinTreeNode* pNode);
+BinTreeNode makeTreeNode(char data);
+void printData(BinTreeNode *node);
 
 #endif
 

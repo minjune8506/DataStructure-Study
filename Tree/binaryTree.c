@@ -113,7 +113,7 @@ BinTreeNode* getRightChildNodeBT(BinTreeNode* pNode)
 
 void printData(BinTreeNode *node)
 {
-	printf("%c -> ", node->data);
+	printf("%d -> ", node->data);
 }
 
 /**
@@ -127,10 +127,10 @@ void preorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func)
 {
 	if (!pBinTree || !curr || curr->visited)
 		return ;
-	curr->visited = TRUE;
+	// curr->visited = TRUE;
 	func(curr);
-	preorderTraversalBinTree(pBinTree, curr->pLeftChild, printData);
-	preorderTraversalBinTree(pBinTree, curr->pRightChild, printData);
+	preorderTraversalBinTree(pBinTree, curr->pLeftChild, func);
+	preorderTraversalBinTree(pBinTree, curr->pRightChild, func);
 }
 
 /**
@@ -144,10 +144,10 @@ void inorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func)(
 {
 	if (!pBinTree || !curr || curr->visited)
 		return ;
-	curr->visited = 1;
-	inorderTraversalBinTree(pBinTree,curr->pLeftChild, printData);
+	// curr->visited = 1;
+	inorderTraversalBinTree(pBinTree, curr->pLeftChild, func);
 	func(curr);
-	inorderTraversalBinTree(pBinTree,curr->pRightChild, printData);
+	inorderTraversalBinTree(pBinTree, curr->pRightChild, func);
 }
 
 /**
@@ -162,9 +162,9 @@ void postorderTraversalBinTree(BinTree *pBinTree, BinTreeNode *curr, void (*func
 {
 	if (!pBinTree || !curr || curr->visited)
 		return ;
-	curr->visited = 1;
-	postorderTraversalBinTree(pBinTree,curr->pLeftChild, printData);
-	postorderTraversalBinTree(pBinTree,curr->pRightChild, printData);
+	// curr->visited = 1;
+	postorderTraversalBinTree(pBinTree,curr->pLeftChild, func);
+	postorderTraversalBinTree(pBinTree,curr->pRightChild, func);
 	func(curr);
 }
 
@@ -206,38 +206,38 @@ BinTreeNode makeTreeNode(char data)
 	return (node);
 }
 
-int main(void)
-{
-	BinTreeNode rootNode;
-	BinTreeNode *temp;
-	BinTree *tree;
+// int main(void)
+// {
+// 	BinTreeNode rootNode;
+// 	BinTreeNode *temp;
+// 	BinTree *tree;
 
-	rootNode = makeTreeNode('A');
-	tree = makeBinTree(rootNode);
+// 	rootNode = makeTreeNode('A');
+// 	tree = makeBinTree(rootNode);
 
-	temp = insertLeftChildNodeBT(getRootNodeBT(tree), makeTreeNode('B'));
-	insertLeftChildNodeBT(insertRightChildNodeBT(temp, makeTreeNode('E')), makeTreeNode('J'));
-	temp = insertLeftChildNodeBT(temp, makeTreeNode('D'));
-	insertLeftChildNodeBT(temp, makeTreeNode('H'));
-	insertRightChildNodeBT(temp, makeTreeNode('I'));
+// 	temp = insertLeftChildNodeBT(getRootNodeBT(tree), makeTreeNode('B'));
+// 	insertLeftChildNodeBT(insertRightChildNodeBT(temp, makeTreeNode('E')), makeTreeNode('J'));
+// 	temp = insertLeftChildNodeBT(temp, makeTreeNode('D'));
+// 	insertLeftChildNodeBT(temp, makeTreeNode('H'));
+// 	insertRightChildNodeBT(temp, makeTreeNode('I'));
 	
-	temp = insertRightChildNodeBT(getRootNodeBT(tree), makeTreeNode('C'));
-	temp = insertLeftChildNodeBT(temp, makeTreeNode('F'));
-	insertRightChildNodeBT(temp, makeTreeNode('K'));
-	temp = insertRightChildNodeBT(getRootNodeBT(tree)->pRightChild, makeTreeNode('G'));
-	insertLeftChildNodeBT(temp, makeTreeNode('L'));
-	insertRightChildNodeBT(temp, makeTreeNode('M'));
+// 	temp = insertRightChildNodeBT(getRootNodeBT(tree), makeTreeNode('C'));
+// 	temp = insertLeftChildNodeBT(temp, makeTreeNode('F'));
+// 	insertRightChildNodeBT(temp, makeTreeNode('K'));
+// 	temp = insertRightChildNodeBT(getRootNodeBT(tree)->pRightChild, makeTreeNode('G'));
+// 	insertLeftChildNodeBT(temp, makeTreeNode('L'));
+// 	insertRightChildNodeBT(temp, makeTreeNode('M'));
 	
-	preorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
-	// inorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
-	// postorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
-	/*
-					A
-			B				C
-		D		E		F		G
-	H	 I	   J		  K   L	   M
-	*/
-	printf("\n");
-	deleteBinTree(tree);
-	// system("leaks a.out");
-}
+// 	preorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
+// 	// inorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
+// 	// postorderTraversalBinTree(tree, getRootNodeBT(tree), printData);
+// 	/*
+// 					A
+// 			B				C
+// 		D		E		F		G
+// 	H	 I	   J		  K   L	   M
+// 	*/
+// 	printf("\n");
+// 	deleteBinTree(tree);
+// 	system("leaks a.out");
+// }
