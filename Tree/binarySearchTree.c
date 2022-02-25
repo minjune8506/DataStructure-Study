@@ -101,9 +101,9 @@ void deleteBST(BinTree *BST, BinTreeNode key)
 		else
 			parent->pRightChild->data = successor->data;
 		if (parent_successor->pLeftChild == successor)
-			parent_successor->pLeftChild = NULL;
+			parent_successor->pLeftChild = successor->pLeftChild;
 		else
-			parent_successor->pRightChild = NULL;
+			parent_successor->pRightChild = successor->pLeftChild;
 		deleteBinTreeNode(successor);
 	}
 	else if (searched->pRightChild || searched->pLeftChild)
@@ -167,6 +167,8 @@ int main(void)
 	insertBST(tree, key);
 	key.data = 14;
 	insertBST(tree, key);
+	key.data = 12;
+	insertBST(tree, key);
 	key.data = 22;
 	insertBST(tree, key);
 	
@@ -178,6 +180,7 @@ int main(void)
 			B20			  	   C40
 		D10		E24		    F34		G46
 	H6	 I14	   J22	   32
+	    12
 	*/
 
 	key.data = 34;
