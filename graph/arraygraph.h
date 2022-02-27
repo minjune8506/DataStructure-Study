@@ -3,41 +3,43 @@
 
 typedef struct ArrayGraphType
 {
-	int maxVertexCount;		// ÃÖ´ë ³ëµå °³¼ö
-	int currentVertexCount;	// ÇöÀç »ç¿ëµÇ´Â ³ëµåÀÇ °³¼ö
-	int graphType;			// ±×·¡ÇÁ Á¾·ù: 1-Undirected, 2-Directed
-	int **ppAdjEdge;		// °£¼± ÀúÀåÀ» À§ÇÑ 2Â÷¿ø array
-	int *pVertex;			// ³ëµå ÀúÀåÀ» À§ÇÑ 1Â÷¿ø array
+	int maxVertexCount;		// ìµœëŒ€ ë…¸ë“œ ê°œìˆ˜
+	int currentVertexCount;	// í˜„ì¬ ì‚¬ìš©ë˜ëŠ” ë…¸ë“œì˜ ê°œìˆ˜
+	int graphType;			// ê·¸ë˜í”„ ì¢…ë¥˜: 1-Undirected, 2-Directed
+	int **ppAdjEdge;		// ê°„ì„  ì €ì¥ì„ ìœ„í•œ 2ì°¨ì› array
+	int *pVertex;			// ë…¸ë“œ ì €ì¥ì„ ìœ„í•œ 1ì°¨ì› array
 } ArrayGraph;
 
-// ±×·¡ÇÁ »ı¼º
-ArrayGraph* createArrayGraph(int maxVertexCount);
+// ê·¸ë˜í”„ ìƒì„±
+ArrayGraph* createArrayGraph(int maxVertexCount, int graphType);
+ArrayGraph* createArrayUndirectedGraph(int maxVertexCount);
 ArrayGraph* createArrayDirectedGraph(int maxVertexCount);
 
-// ±×·¡ÇÁ »èÁ¦
-void deleteArrayGraph(ArrayGraph* pGraph);
-
-// °ø¹é ±×·¡ÇÁ ¿©ºÎ ÆÇ´Ü
+// ê³µë°± ê·¸ë˜í”„ ì—¬ë¶€ íŒë‹¨
 int isEmptyAG(ArrayGraph* pGraph);
+int isFullAG(ArrayGraph* pGraph);
 
-// ³ëµå Ãß°¡
+// ë…¸ë“œ ì¶”ê°€
 int addVertexAG(ArrayGraph* pGraph, int vertexID);
 
-// °£¼± Ãß°¡
+// ê°„ì„  ì¶”ê°€
 int addEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID, int weight);
 
-// ³ëµåÀÇ À¯È¿¼º Á¡°Ë.
+// ë…¸ë“œì˜ ìœ íš¨ì„± ì ê²€.
 int checkVertexValid(ArrayGraph* pGraph, int vertexID);
 
-// ³ëµå Á¦°Å
+// ë…¸ë“œ ì œê±°
 int removeVertexAG(ArrayGraph* pGraph, int vertexID);
 
-// °£¼± Á¦°Å
+// ê°„ì„  ì œê±°
 int removeEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID);
 
-// ±×·¡ÇÁ Á¤º¸ Ãâ·Â
+// ê·¸ë˜í”„ ì •ë³´ ì¶œë ¥
 void displayArrayGraph(ArrayGraph* pGraph);
+
+// ê·¸ë˜í”„ ì‚­ì œ
+void deleteArrayGraph(ArrayGraph* pGraph);
 #endif
 
 #ifndef _COMMON_GRAPH_DEF_
