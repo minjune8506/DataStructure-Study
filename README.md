@@ -19,4 +19,11 @@
 
 ### Tree
 - [Binary Tree](./Tree/binaryTree.c)
+- [Binary Search Tree](./Tree/binarySearchTree.c)
+- [Heap](./Tree/heap.c)
+
+### Graph
+- [Array Graph](./Graph/arraygraph.c)
+- [Linked Graph](./Graph/linkedgraph.c)
+
 - [Blog](https://velog.io/@minjune8506/list)
