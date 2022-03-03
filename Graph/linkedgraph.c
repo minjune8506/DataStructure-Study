@@ -1,4 +1,6 @@
 #include "linkedgraph.h"
+#include "../Stack/linkedstack.h"
+#include "../Queue/linkeddeque.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -310,34 +312,102 @@ void deleteLinkedGraph(LinkedGraph* pGraph)
 	free(pGraph);
 }
 
+static char visited[10];
+
+void recur_dfs(LinkedGraph *pGraph, int start)
+{
+	visited[pGraph->pVertex[start]] = TRUE;
+	printf("%d ", pGraph->pVertex[start]);
+	for (int i = 0 ; i < pGraph->ppAdjEdge[start]->currentElementCount ; i++)
+	{
+		int data = getLLElement(pGraph->ppAdjEdge[start], i)->vertexID;
+		if (visited[pGraph->pVertex[data]] != TRUE)
+			recur_dfs(pGraph, data);
+	}
+}
+
+void dfs(LinkedGraph *pGraph, int start)
+{
+	LinkedStack *stack;
+	StackNode element;
+	StackNode *temp;
+	int id;
+	char visited[pGraph->currentVertexCount];
+
+	printf("----------DFS----------\n");
+	stack = createLinkedStack();
+	element.data = pGraph->pVertex[start];
+	pushLS(stack, element);
+	visited[pGraph->pVertex[start]] = TRUE;
+	while (!isLinkedStackEmpty(stack))
+	{
+		temp = popLS(stack);
+		printf("%d ", temp->data);
+		for (int i = 0 ; i < pGraph->ppAdjEdge[temp->data]->currentElementCount ; i++)
+		{
+			id = getLLElement(pGraph->ppAdjEdge[temp->data], i)->vertexID;
+			if (visited[id] != TRUE)
+			{
+				element.data = id;
+				pushLS(stack, element);
+				visited[id] = TRUE;
+			}
+		}
+	}
+	printf("\n");
+}
+
+void bfs(LinkedGraph *pGraph, int start)
+{
+	LinkedDeque *pDequeue;
+	DequeNode element;
+	DequeNode *temp;
+	int id;
+	char visited[pGraph->currentVertexCount];
+	
+	printf("----------BFS----------\n");
+	pDequeue = createLinkedDeque();
+	element.data = pGraph->pVertex[start];
+	insertRearLD(pDequeue, element);
+	visited[pGraph->pVertex[start]] = TRUE;
+	while(!isLinkedDequeEmpty(pDequeue))
+	{
+		temp = deleteFrontLD(pDequeue);
+		printf("%d ", temp->data);
+		for (int i = 0 ; i < pGraph->ppAdjEdge[temp->data]->currentElementCount ; i++)
+		{
+			id = getLLElement(pGraph->ppAdjEdge[temp->data], i)->vertexID;
+			if (visited[id] != TRUE)
+			{
+				element.data = id;
+				insertRearLD(pDequeue, element);
+				visited[id] = TRUE;
+			}
+		}
+	}
+	printf("\n");
+}
+
 int main(void)
 {
 	LinkedGraph *graph;
-	
-	graph = createLinkedDirectedGraph(5);
-	addVertexLG(graph, 10);
-	addVertexLG(graph, 20);
-	addVertexLG(graph, 30);
-	addVertexLG(graph, 40);
-	addVertexLG(graph, 50);
-	displayLinkedGraph(graph);
 
-	addEdgeLG(graph, 10, 20);
-	addEdgeLG(graph, 20, 50);
-	addEdgeLG(graph, 30, 40);
-	addEdgeLG(graph, 20, 30);
-	addEdgeLG(graph, 10, 40);
+	graph = createLinkedUndirectedGraph(8);
+	for (int i = 0 ; i <= 7 ; i++)
+		addVertexLG(graph, i);
+	addEdgeLG(graph, 0, 1);
+	addEdgeLG(graph, 0, 2);
+	addEdgeLG(graph, 1, 3);
+	addEdgeLG(graph, 1, 4);
+	addEdgeLG(graph, 3, 7);
+	addEdgeLG(graph, 4, 5);
+	addEdgeLG(graph, 5, 2);
+	addEdgeLG(graph, 2, 6);
 	displayLinkedGraph(graph);
 	
-	removeEdgeLG(graph, 10, 20);
-	removeEdgeLG(graph, 30, 40);
-	displayLinkedGraph(graph);
-
-	removeVertexLG(graph, 10);
-	removeVertexLG(graph, 30);
-	removeVertexLG(graph, 50);
-	displayLinkedGraph(graph);
-
+	dfs(graph, 0);
+	bfs(graph, 0);
+	recur_dfs(graph, 0);
 	deleteLinkedGraph(graph);
 	// system("leaks a.out");
 }
