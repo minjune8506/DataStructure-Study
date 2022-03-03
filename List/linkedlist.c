@@ -184,12 +184,12 @@ ListNode *getLLElement(LinkedList* pList, int position)
 }
 
 /*
- * display() - Linked List 내용 출력
+ * displayLinkedList() - Linked List 내용 출력
  *
  * return	: None
  * pList	: Linked List의 포인터
  */
-void display(LinkedList *pList)
+void displayLinkedList(LinkedList *pList)
 {
 	ListNode *temp;
 
@@ -229,54 +229,4 @@ void reverseLinkedList(LinkedList* pList)
 		curr->pLink = prev;
 	}
 	pList->headerNode.pLink = curr;
-}
-
-int main(void)
-{
-	LinkedList *list;
-	ListNode node;
-	
-	list = createLinkedList();
-
-	node.data = 10;
-	addLLElement(list, 0, node);
-	display(list);
-	// 10
-
-	node.data = 20;
-	addLLElement(list, 0, node);
-	display(list);
-	// 20 -> 10
-
-	node.data = 30;
-	addLLElement(list, 1, node);
-	display(list);
-	// 20 -> 30 -> 10
-
-	node.data = 40;
-	addLLElement(list, 3, node);
-	display(list);
-	// 20 -> 30 -> 10 -> 40
-
-	// removeLLElement(list, 0);
-	// display(list);
-	// // 30 -> 10 -> 40
-
-	// removeLLElement(list, 1);
-	// display(list);
-	// // 30 -> 40
-
-	// removeLLElement(list, 1);
-	// display(list);
-	// // 30
-
-	// removeLLElement(list, 0);
-	// display(list);
-	// Empty List
-
-	// clearLinkedList(list);
-	// deleteLinkedList(list);
-	// system("leaks a.out");
-	reverseLinkedList(list);
-	display(list);
 }
