@@ -129,7 +129,7 @@ int isArrayQueueEmpty(ArrayQueue* pQueue)
  * 
  * pQueue : Array Queue의 포인터
  */
-void display(ArrayQueue* pQueue)
+void displayArrayQueue(ArrayQueue* pQueue)
 {
 	printf("maxElementCount : %d\n", pQueue->maxElementCount);
 	printf("currentElementCount : %d\n", pQueue->currentElementCount);
@@ -144,39 +144,4 @@ void display(ArrayQueue* pQueue)
 	}	
 	printf("\n");
 	printf(" -------------------\n\n");
-}
-
-int main(void)
-{
-	ArrayQueue *que;
-	ArrayQueueNode node;
-	ArrayQueueNode *temp;
-
-	que = createArrayQueue(5);
-	node.data = 'a';
-
-	for (int i = 0 ; i < que->maxElementCount - 1 ; i++)
-	{
-		enqueueAQ(que,  node);
-		node.data++;
-		display(que);
-	}
-	printf("isArrayQueueFull : %s\n\n", isArrayQueueFull(que) ? "True" : "False");
-	for (int i = 0 ; i < que->maxElementCount - 1 ; i++)
-	{
-		printf("peek : %c\n", peekAQ(que)->data);
-		temp = dequeueAQ(que);
-		printf("dequeue : %c\n", temp->data);
-		temp->data = 0;
-		display(que);
-	}
-	printf("isArrayQueueEmpty : %s\n\n", isArrayQueueEmpty(que) ? "True" : "False");
-	for (int i = 0 ; i < que->maxElementCount - 1 ; i++)
-	{
-		enqueueAQ(que,  node);
-		node.data++;
-		display(que);
-	}
-	deleteArrayQueue(que);
-	// system("leaks a.out");
 }

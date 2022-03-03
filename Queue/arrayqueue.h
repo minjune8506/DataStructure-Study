@@ -22,6 +22,7 @@ ArrayQueueNode *peekAQ(ArrayQueue* pQueue);
 void deleteArrayQueue(ArrayQueue* pQueue);
 int isArrayQueueFull(ArrayQueue* pQueue);
 int isArrayQueueEmpty(ArrayQueue* pQueue);
+void displayArrayQueue(ArrayQueue* pQueue);
 
 #endif
 
