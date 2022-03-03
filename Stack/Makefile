@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-OBJS = linkedstack.o arraystack.o
+OBJS = linkedstack.o arraystack.o linkedStackMain.o arrayStackMain.o
 TARGET = arraystack linkedstack
 
 RED = \033[2;31m
@@ -11,15 +11,15 @@ all : $(TARGET)
 
 $(TARGET) : $(OBJS)
 	@ echo "$(RED)Object Files Created$(RESET)"
-	@ $(CC) -o arraystack arraystack.o
-	@ $(CC) -o linkedstack linkedstack.o
+	@ $(CC) -o arraystack arraystack.o arrayStackMain.o
+	@ $(CC) -o linkedstack linkedstack.o linkedStackMain.o 
 	@ echo "$(BLUE)Target Created$(RESET)"
 
 linkedstack.o : linkedstack.c linkedstack.h
-	@ $(CC) -c linkedstack.c
+	@ $(CC) -c linkedstack.c linkedStackMain.c
 
 arraystack.o : arraystack.c arraystack.h
-	@ $(CC) -c arraystack.c
+	@ $(CC) -c arraystack.c arrayStackMain.c
 
 clean :
 	@ rm -f $(OBJS)
