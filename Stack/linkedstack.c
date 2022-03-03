@@ -139,12 +139,12 @@ int isLinkedStackEmpty(LinkedStack *pStack)
 }
 
 /**
- * display() : Linked Stack 출력
+ * displayLinkedStack() : Linked Stack 출력
  * 
  * return : None
  * pStack : Linked Stack의  포인터
  */
-void display(LinkedStack *pStack)
+void displayLinkedStack(LinkedStack *pStack)
 {
 	StackNode *iter;
 
@@ -161,33 +161,4 @@ void display(LinkedStack *pStack)
 			printf("%c ", iter->data);
 		printf("\n");
 	}
-}
-
-int main(void)
-{
-	LinkedStack *stack;
-	StackNode node;
-	StackNode *pop;
-	StackNode *peek;
-
-	stack = createLinkedStack();
-
-	node.data = 'a';
-	for (int i = 0; i < 5 ; i++)
-	{
-		pushLS(stack, node);
-		display(stack);
-		node.data++;
-	}
-	for (int i = 0 ; i < 5 ; i++)
-	{
-		peek = peekLS(stack);
-		pop = popLS(stack);
-		printf("peek : %c, pop : %c\n", peek->data, pop->data);
-		free(pop);
-		display(stack);
-	}
-	printf("isEmpty : %s\n", isLinkedStackEmpty(stack) ? "true" : "false");
-	deleteLinkedStack(stack);
-	// system("leaks a.out");
 }
