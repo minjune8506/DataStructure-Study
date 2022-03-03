@@ -18,6 +18,7 @@ ArrayStackNode* peekAS(ArrayStack* pStack);
 void deleteArrayStack(ArrayStack* pStack);
 int isArrayStackFull(ArrayStack* pStack);
 int isArrayStackEmpty(ArrayStack* pStack);
+void displayArrayStack(ArrayStack *pStack);
 
 #endif
 

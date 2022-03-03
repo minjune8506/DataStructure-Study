@@ -120,12 +120,12 @@ int isArrayStackEmpty(ArrayStack *pStack)
 }
 
 /*
- * display - Print Array Stack
+ * displayArrayStack - Print Array Stack
  *
  * return : None
  * pStack : Array Stack의 포인터
 */
-void display(ArrayStack *pStack)
+void displayArrayStack(ArrayStack *pStack)
 {
 	if (!pStack || !pStack->pElement)
 		return ;
@@ -135,33 +135,4 @@ void display(ArrayStack *pStack)
 	for (int i = 0 ; i < pStack->currentElementCount ; i++)
 		printf("%c ",pStack->pElement[i].data);
 	printf("\n");
-}
-
-int main(void)
-{
-	ArrayStack *pStack;
-	ArrayStackNode node;
-	ArrayStackNode *pop;
-	ArrayStackNode *peek;
-
-	pStack = createArrayStack(10);
-	node.data = 'a';
-	for (int i = 0 ; i < pStack->maxElementCount ; i++)
-	{
-		pushAS(pStack, node);
-		display(pStack);
-		node.data++;
-	}
-	printf("is_full : %s\n", isArrayStackFull(pStack) ? "true" : "false");
-	for (int i = 0 ; i < pStack->maxElementCount ; i++)
-	{
-		peek = peekAS(pStack);
-		pop = popAS(pStack);
-		printf("peek : %c\n", peek->data);
-		printf("pop : %c\n", pop->data);
-		display(pStack);
-	}
-	printf("is_empty : %s\n", isArrayStackEmpty(pStack) ? "true" : "false");
-	deleteArrayStack(pStack);
-	// system("leaks a.out");
 }
