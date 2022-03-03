@@ -25,5 +25,6 @@
 ### Graph
 - [Array Graph](./Graph/arraygraph.c)
 - [Linked Graph](./Graph/linkedgraph.c)
-
+- [BFS](./Graph/linkedgraph.c)
+- [DFS](./Graph/linkedgraph.c)
 - [Blog](https://velog.io/@minjune8506/list)
