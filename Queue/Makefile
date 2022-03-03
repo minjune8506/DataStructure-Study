@@ -1,8 +1,8 @@
 CC = gcc
 ARRAY_QUEUE = arrayqueue
 LINKED_DEQUEUE = linkeddeque
-ARRAY_OBJS = arrayqueue.o
-LINKED_OBJS = linkeddeque.o
+ARRAY_OBJS = arrayqueue.o arrayQueueMain.o
+LINKED_OBJS = linkeddeque.o linkedDequeMain.o
 
 RED = \033[0;31m
 BLUE = \033[0;34m
