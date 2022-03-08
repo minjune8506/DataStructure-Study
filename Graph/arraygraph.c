@@ -156,35 +156,65 @@ void deleteArrayGraph(ArrayGraph* pGraph)
 	free(pGraph);
 }
 
-int main(void)
+int found(int distance[], int visited[], int vertexCount)
 {
-    ArrayGraph *undirected;
-    undirected =  createArrayUndirectedGraph(5);
-	displayArrayGraph(undirected);
-	
-	printf("isEmptyArrayGraph : %s\n", isEmptyAG(undirected) ? "True" : "False");
-	for (int i = 0 ; i < 5 ; i++)
-		addVertexAG(undirected, i);
-	displayArrayGraph(undirected);
-	
-	addEdgeAG(undirected, 1, 2);
-	addEdgeAG(undirected, 2, 4);
-	addEdgeAG(undirected, 1, 3);
-	addEdgeAG(undirected, 3, 4);
-	displayArrayGraph(undirected);
-	
-	addEdgewithWeightAG(undirected, 1, 4, 9);
-	addEdgewithWeightAG(undirected, 2, 1, 9);
-	addEdgewithWeightAG(undirected, 4, 2, 9);
-	addEdgewithWeightAG(undirected, 1, 3, 9);
-	displayArrayGraph(undirected);
+	int min;
+	int minPos;
 
-	removeVertexAG(undirected, 2);
-	displayArrayGraph(undirected);
-	
-	removeEdgeAG(undirected, 3, 4);
-	displayArrayGraph(undirected);
+	min = INT32_MAX;
+	for (int i = 0 ; i < vertexCount ; i++)
+	{
+		if (distance[i] < min && !visited[i])
+		{
+			min = distance[i];
+			minPos = i;
+		}
+	}
+	return minPos;
+}
 
-	deleteArrayGraph(undirected);
-	// system("leaks a.out");
+/**
+ * dijkstra() : 최단경로 알고리즘
+ * 
+ * pGraph : 그래프 포인터
+ */
+// 0 1 2 3 4 5
+// 0 : 0 1 4 99 99 99
+// 1 : 0 1 3 99 99 99
+// 2 : 0 1 3 4 99 99
+// 3 : 0 1 3 4 12 7
+// 5 : 0 1 3 4 11 7
+// 4 : ;
+void dijkstra(ArrayGraph *pGraph, int start, int end)
+{
+	int distance[pGraph->currentVertexCount];
+	int visited[pGraph->currentVertexCount];
+	int minPos;
+
+	memset(visited, FALSE, sizeof(visited));
+	visited[start] = TRUE;
+	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+	{
+		if (start == i)
+			distance[i] = 0;
+		else if (!pGraph->ppAdjEdge[start][i])
+			distance[i] = INT32_MAX;
+		else
+			distance[i] = pGraph->ppAdjEdge[start][i];
+	}
+	for (int i = 0 ; i < pGraph->currentVertexCount - 1 ; i++)
+	{
+		minPos = found(distance, visited, pGraph->maxVertexCount);
+		visited[minPos] = TRUE;
+		for (int j = 0 ; j < pGraph->currentVertexCount ; j++)
+		{
+			if (!visited[j])
+				if (pGraph->ppAdjEdge[minPos][j] && pGraph->ppAdjEdge[minPos][j] + distance[minPos] < distance[j])
+					distance[j] = pGraph->ppAdjEdge[minPos][j] + distance[minPos];
+		}
+	}
+	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+		printf("%d ", distance[i]);
+	printf("\n");
+	printf("%d -> %d 최단거리 : %d\n", start, end, distance[end]);
 }

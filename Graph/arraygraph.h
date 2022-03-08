@@ -40,6 +40,8 @@ void displayArrayGraph(ArrayGraph* pGraph);
 
 // 그래프 삭제
 void deleteArrayGraph(ArrayGraph* pGraph);
+
+void dijkstra(ArrayGraph *pGraph, int start, int end);
 #endif
 
 #ifndef _COMMON_GRAPH_DEF_
