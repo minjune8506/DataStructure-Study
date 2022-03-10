@@ -1,6 +1,6 @@
 #include "linkedgraph.h"
-#include "../Stack/linkedstack.h"
-#include "../Queue/linkeddeque.h"
+#include "linkedstack.h"
+#include "linkeddeque.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -132,6 +132,7 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 			if (pGraph->ppAdjEdge[i]->vertexID == toVertexID)
     			addLLElement(pGraph->ppAdjEdge[i], pGraph->ppAdjEdge[i]->currentElementCount, fromVertex);
 		}
+		pGraph->currentEdgeCount++;
 	}
     pGraph->currentEdgeCount++;
 	return (SUCCESS);
@@ -164,6 +165,7 @@ int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, i
 			if (pGraph->ppAdjEdge[i]->vertexID == toVertexID)
     			addLLElement(pGraph->ppAdjEdge[i], pGraph->ppAdjEdge[i]->currentElementCount, fromVertex);
 		}
+		pGraph->currentEdgeCount++;
     }
 	pGraph->currentEdgeCount++;
 	return (SUCCESS);
@@ -312,9 +314,7 @@ void deleteLinkedGraph(LinkedGraph* pGraph)
 	free(pGraph);
 }
 
-static char visited[10];
-
-void recur_dfs(LinkedGraph *pGraph, int start)
+void recursiveDFS(LinkedGraph *pGraph, int start, char visited[])
 {
 	visited[pGraph->pVertex[start]] = TRUE;
 	printf("%d ", pGraph->pVertex[start]);
@@ -322,7 +322,7 @@ void recur_dfs(LinkedGraph *pGraph, int start)
 	{
 		int data = getLLElement(pGraph->ppAdjEdge[start], i)->vertexID;
 		if (visited[pGraph->pVertex[data]] != TRUE)
-			recur_dfs(pGraph, data);
+			recursiveDFS(pGraph, data, visited);
 	}
 }
 
@@ -388,26 +388,109 @@ void bfs(LinkedGraph *pGraph, int start)
 	printf("\n");
 }
 
-int main(void)
-{
-	LinkedGraph *graph;
 
-	graph = createLinkedUndirectedGraph(8);
-	for (int i = 0 ; i <= 7 ; i++)
-		addVertexLG(graph, i);
-	addEdgeLG(graph, 0, 1);
-	addEdgeLG(graph, 0, 2);
-	addEdgeLG(graph, 1, 3);
-	addEdgeLG(graph, 1, 4);
-	addEdgeLG(graph, 3, 7);
-	addEdgeLG(graph, 4, 5);
-	addEdgeLG(graph, 5, 2);
-	addEdgeLG(graph, 2, 6);
-	displayLinkedGraph(graph);
-	
-	dfs(graph, 0);
-	bfs(graph, 0);
-	recur_dfs(graph, 0);
-	deleteLinkedGraph(graph);
-	// system("leaks a.out");
+/**
+* Kruskal Algorithm  - 최단경로 알고리즘 (3)
+*
+*
+*/
+
+/* find(x): 재귀 이용 */
+int find(int x, int root[]) {
+    // 루트 노드는 부모 노드 번호로 자기 자신을 가진다.
+    if (root[x] == x)
+        return x;
+    else
+    	// 각 노드의 부모 노드를 찾아 올라간다.
+    	return find(root[x], root);
+}
+
+/* union(x, y) */
+int unionParent(int x, int y, int root[]){
+    // 각 원소가 속한 트리의 루트 노드를 찾는다.
+    x = find(x, root);
+    y = find(y, root);
+	if (x == y)
+		return (FALSE);
+	root[y] = x;
+	return (TRUE);
+}
+
+typedef struct edge
+{
+	int from;
+	int to;
+	int weight;
+}edge;
+
+void swap(edge *a, edge *b)
+{
+	edge *temp;
+
+	temp = b;
+	b = a;
+	a = b;
+}
+
+void sortEdge(edge *sortedEdge, int size)
+{
+	int min;
+
+	for (int i = 0 ; i < size - 1 ; i++)
+	{
+		min = i;
+		for (int j = i + 1 ; j < size ; j++)
+		{
+			if (sortedEdge[min].weight > sortedEdge[j].weight)
+				min = j;
+		}
+		if (i != min)
+		{
+			edge temp;
+
+			temp = sortedEdge[min];
+			sortedEdge[min] = sortedEdge[i];
+			sortedEdge[i] = temp;
+		}
+	}
+}
+
+void kruskal(LinkedGraph *pGraph)
+{
+	printf("---Kruskal Algorithm---\n");
+	int root[pGraph->currentVertexCount];
+	edge sortedEdge[pGraph->currentEdgeCount];
+	int j = 0;
+
+	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+		root[i] = i;
+	// Edge 저장
+	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+	{
+		ListNode *node = NULL;
+
+		node = pGraph->ppAdjEdge[i]->headerNode.pLink;
+		while (node)
+		{
+			sortedEdge[j].from = i;
+			sortedEdge[j].to = node->vertexID;
+			sortedEdge[j].weight = node->weight;
+			node = node->pLink;
+			j++;
+		}
+	}
+	sortEdge(sortedEdge, pGraph->currentEdgeCount);
+	int sum = 0;
+	int edgeCount = 0;
+	for (int i = 0 ; i < pGraph->currentEdgeCount ; i++)
+	{
+		if (unionParent(sortedEdge[i].from, sortedEdge[i].to, root))
+		{
+			sum += sortedEdge[i].weight;
+			edgeCount++;
+			if (edgeCount == pGraph->currentVertexCount - 1)
+				break ;
+		}
+	}
+	printf("sum : %d\n", sum);
 }
