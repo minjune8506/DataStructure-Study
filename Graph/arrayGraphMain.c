@@ -23,6 +23,7 @@ int main(void)
 
 	displayArrayGraph(undirected);
 	dijkstra(undirected, 0, 5);
+	floydWarshall(undirected);
 	deleteArrayGraph(undirected);
 	// system("leaks a.out");
 }

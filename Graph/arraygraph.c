@@ -174,19 +174,22 @@ int found(int distance[], int visited[], int vertexCount)
 }
 
 /**
- * dijkstra() : 최단경로 알고리즘
+ * dijkstra() : 최단경로 알고리즘 (1)
  * 
  * pGraph : 그래프 포인터
  */
-// 0 1 2 3 4 5
-// 0 : 0 1 4 99 99 99
-// 1 : 0 1 3 99 99 99
-// 2 : 0 1 3 4 99 99
-// 3 : 0 1 3 4 12 7
-// 5 : 0 1 3 4 11 7
-// 4 : ;
+/**
+ * 0 1 2 3 4 5
+ * 0 : 0 1 4 99 99 99
+ * 1 : 0 1 3 99 99 99
+ * 2 : 0 1 3 4 99 99
+ * 3 : 0 1 3 4 12 7
+ * 5 : 0 1 3 4 11 7
+ * 4 : ;
+ */
 void dijkstra(ArrayGraph *pGraph, int start, int end)
 {
+	printf("---Dijkstra Algorithm---\n");
 	int distance[pGraph->currentVertexCount];
 	int visited[pGraph->currentVertexCount];
 	int minPos;
@@ -216,5 +219,48 @@ void dijkstra(ArrayGraph *pGraph, int start, int end)
 	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
 		printf("%d ", distance[i]);
 	printf("\n");
-	printf("%d -> %d 최단거리 : %d\n", start, end, distance[end]);
+	if (distance[end] == INT32_MAX)
+		printf("%d -> Cannot Reach -> %d\n",start,end);
+	else
+		printf("%d -> %d Shortest Distance : %d\n", start, end, distance[end]);
+}
+
+/**
+ * floydWarshall() - 최단경로 알고리즘 (2)
+ * 
+ * pGraph : graph 포인터
+ */
+void floydWarshall(ArrayGraph *pGraph)
+{
+	printf("---FloydWarshall Algorithm---\n");
+	int result[pGraph->currentVertexCount][pGraph->currentVertexCount];
+
+	// 초기화
+	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+		for (int j = 0 ; j < pGraph->currentVertexCount ; j++) {
+			if (i == j)
+				result[i][j] = 0;
+			else if (!pGraph->ppAdjEdge[i][j])
+				result[i][j] = INT16_MAX;
+			else
+				result[i][j] = pGraph->ppAdjEdge[i][j];
+		}
+	// k = 경유 노드
+	for (int k = 0 ; k < pGraph->currentVertexCount ; k++)
+	 	// i = 출발 노드
+		for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+			// j = 도착 노드
+			for (int j = 0; j < pGraph->currentVertexCount ; j++)
+			{
+				if (result[i][k] + result[k][j] < result[i][j])
+					result[i][j] = result[i][k] + result[k][j];
+			}
+	
+	// 결과 출력
+	for (int i = 0 ; i < pGraph->currentVertexCount ; i++)
+	{
+		for (int j = 0 ; j < pGraph->currentVertexCount ; j++)
+			printf("%3d ", result[i][j]);
+		printf("\n");
+	}
 }

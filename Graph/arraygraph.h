@@ -42,6 +42,7 @@ void displayArrayGraph(ArrayGraph* pGraph);
 void deleteArrayGraph(ArrayGraph* pGraph);
 
 void dijkstra(ArrayGraph *pGraph, int start, int end);
+void floydWarshall(ArrayGraph *pGraph);
 #endif
 
 #ifndef _COMMON_GRAPH_DEF_
