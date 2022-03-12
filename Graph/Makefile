@@ -2,7 +2,7 @@ CC = gcc
 AG = arraygraph
 AG_OBJS = arraygraph.o arrayGraphMain.o dijkstra.o floydWarshall.o
 LG = linkedgraph
-LG_OBJS = linkedgraph.o linkedGraphMain.o linkedlist.o
+LG_OBJS = linkedgraph.o linkedGraphMain.o linkedlist.o graphTraverse.o kruskal.o
 
 STACK_DIR = ../Stack/
 QUEUE_DIR = ../Queue/
