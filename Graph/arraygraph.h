@@ -41,6 +41,7 @@ void displayArrayGraph(ArrayGraph* pGraph);
 // 그래프 삭제
 void deleteArrayGraph(ArrayGraph* pGraph);
 
+// 최단거리 알고리즘
 void dijkstra(ArrayGraph *pGraph, int start, int end);
 void floydWarshall(ArrayGraph *pGraph);
 #endif
