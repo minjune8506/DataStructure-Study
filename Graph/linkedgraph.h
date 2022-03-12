@@ -5,63 +5,66 @@
 
 typedef struct LinkedGraphType
 {
-	int maxVertexCount;		// �ִ� ��� ����
-	int currentVertexCount;	// ���� ���Ǵ� ����� ����
-	int currentEdgeCount;	// ���� ������ ����.
-	int graphType;			// �׷��� ����: 1-Undirected, 2-Directed
-	LinkedList** ppAdjEdge;	// ���� ������ ���� ���� ����Ʈ (������)�� �迭
-	int *pVertex;			// ��� ������ ���� 1���� �迭
+	int maxVertexCount;		// 최대 노드 개수
+	int currentVertexCount;	// 현재 사용되는 노드의 개수
+	int currentEdgeCount;	// 현재 간선의 개수
+	int graphType;			// 그래프의 종류: 1-Undirected, 2-Directed
+	LinkedList** ppAdjEdge;	// 간선 저장을 위한 연결 리스트(포인터)의 배열
+	int *pVertex;			// 노드 저장을 위한 1차원 배열
 } LinkedGraph;
 
-// �׷��� ����
+// 그래프 생성
 LinkedGraph* createLinkedGraph(int maxVertexCount, int graphType);
 LinkedGraph* createLinkedUndirectedGraph(int maxVertexCount);
 LinkedGraph* createLinkedDirectedGraph(int maxVertexCount);
 
-// ���� �׷��� ���� �Ǵ�
+// 공백 그래프 여부 판단
 int isEmptyLG(LinkedGraph* pGraph);
 int isFullAG(LinkedGraph *pGraph);
 
-// ����� ��ȿ�� ����.
+// 노드 유효성 검사
 int checkVertexValid(LinkedGraph* pGraph, int vertexID);
 
-// ��� �߰�
+// 노드 추가
 int addVertexLG(LinkedGraph* pGraph, int vertexID);
 
-// ��� ����
+// 노드 제거
 int removeVertexLG(LinkedGraph* pGraph, int vertexID);
 
-// ���� �߰�
+// 간선 추기
 int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight);
 
-// ���� ����
+// 간선 제거
 int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 void deleteGraphNode(LinkedList* pList, int delVertexID);
 int findGraphNodePosition(LinkedList* pList, int vertexID);
 
-// ���� ���� ��ȯ
+// 간선 개수 반환
 int getEdgeCountLG(LinkedGraph* pGraph);
 int sumEdgeCountLG(LinkedGraph *pGraph);
 
-// ��� ���� ��ȯ
+// 노드 개수 반환
 int getVertexCountLG(LinkedGraph* pGraph);
 
-// �ִ� ��� ���� ��ȯ
+// 최대 노드 개수 반환
 int getMaxVertexCountLG(LinkedGraph* pGraph);
 
-// �׷��� ���� ��ȯ.
+// 그래프 종류 반환
 int getGraphTypeLG(LinkedGraph* pGraph);
 
-// �׷��� ���� ���
+// 그래프 정보 출력
 void displayLinkedGraph(LinkedGraph* pGraph);
 
-// �׷��� ����
+// 그래프 삭제
 void deleteLinkedGraph(LinkedGraph* pGraph);
 
+// 그래프 순회 알고리즘
 void recursiveDFS(LinkedGraph *pGraph, int start, char visited[]);
 void dfs(LinkedGraph *pGraph, int start);
 void bfs(LinkedGraph *pGraph, int start);
+
+// MST 알고리즘
 void kruskal(LinkedGraph *pGraph);
 #endif
 
