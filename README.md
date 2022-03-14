@@ -27,4 +27,9 @@
 - [Linked Graph](./Graph/linkedgraph.c)
 - [BFS](./Graph/linkedgraph.c)
 - [DFS](./Graph/linkedgraph.c)
-- [Blog](https://velog.io/@minjune8506/list)
+- [Dijkstra](./Graph/dijkstra.c)
+- [Floyd-Warshall](./Graph/floydWarshall.c)
+- [Kruskal](./Graph/kruskal.c)
+
+### Sort
+- [Quick Sort](./Sort/quickSort.c)
