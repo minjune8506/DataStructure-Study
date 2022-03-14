@@ -1,7 +1,5 @@
-#include "quickSort.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #define ARRAY_SIZE 8
 
@@ -37,7 +35,7 @@ void	switch_LR(int left, int right, int *ary)
 	ary[right] = temp;
 }
 
-int partition(int ary[], int start, int end)
+int		partition(int ary[], int start, int end)
 {
 	int left = start, right = end - 1;
     int pivot = end;
@@ -56,7 +54,7 @@ int partition(int ary[], int start, int end)
 	return (left);
 }
 
-void quick_sort(int ary[], int start, int end)
+void	quick_sort(int ary[], int start, int end)
 {
 	int pivot;
 
@@ -67,7 +65,7 @@ void quick_sort(int ary[], int start, int end)
     quick_sort(ary, pivot + 1, end);
 }
 
-int main(void)
+int		main(void)
 {
 	// int ary[ARRAY_SIZE] = {80, 50, 70, 10, 60, 20, 40, 30};
 	// int ary[ARRAY_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};
